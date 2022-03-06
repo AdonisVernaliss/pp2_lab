@@ -14,4 +14,4 @@ for i in range(len(data["imdata"])):
     descr = data['imdata'][i]['l1PhysIf']['attributes']['descr']
     speed = data['imdata'][i]['l1PhysIf']['attributes']['speed']
     mtu = data['imdata'][i]['l1PhysIf']['attributes']['mtu']
-    print("{:<49}{:<23}{:<7}".format(dn, descr, speed), mtu)
+    print("{:50}{:22}{:9}".format(dn, descr, speed), mtu)
