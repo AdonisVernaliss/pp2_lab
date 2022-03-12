@@ -4,3 +4,8 @@ def snake_to_camel(snc):
 
 l = input()
 print(snake_to_camel(l))
+
+#import camelcase
+#c = camelcase.CamelCase()
+#txt = input()
+#print(c.hump(txt))
