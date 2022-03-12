@@ -7,3 +7,8 @@ def snake_case(s):
 
 s = input()
 print(snake_case(s))
+
+#import snakecase
+#sn = input()
+#s = snakecase.convert(sn)
+#print(s)
