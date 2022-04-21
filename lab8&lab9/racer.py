@@ -8,6 +8,7 @@ width, height = 400, 600
 FPS = 30
 SPEED = 5
 SCORE = 0
+LEVEL = 0
 running = True
 dead = False
 Oy = 0
@@ -19,7 +20,8 @@ pg.mixer.music.play(-1)
 
 # Font
 font = pg.font.SysFont("Verdana", 60)
-font_small = pg.font.SysFont("Verdana", 20)
+font_of_score = pg.font.SysFont('Aarial', 22, bold=True)
+font_of_level = pg.font.SysFont('Aarial', 22, bold=True)
 
 # Display
 clock = pg.time.Clock()
@@ -30,9 +32,6 @@ bg2 = pg.image.load("AnimatedStreet.png")
 
 font_of_end = pg.font.SysFont('Aarial', 70, bold=True)
 render_end = font_of_end.render('GAME OVER', True, pg.Color('yellow'))
-
-
-# go = font.render("Game Over", True, (0, 0, 0))
 
 
 # Player
@@ -52,6 +51,12 @@ class Player(pg.sprite.Sprite):
         if k[pg.K_d]:
             if self.rect.right < 356:
                 self.rect.move_ip(7, 0)
+        if k[pg.K_w]:
+            if self.rect.top > 0:
+                self.rect.move_ip(0, -7)
+        if k[pg.K_s]:
+            if self.rect.bottom < 560:
+                self.rect.move_ip(0, 7)
 
 
 # Enemy
@@ -73,32 +78,12 @@ class Enemy(pg.sprite.Sprite):
 class Coins(pg.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.type = random.randint(1, 10)
-        if self.type == 1:
-            self.letter = ''
-            self.cost = 3
-        elif 2 <= self.type < 5:
-            self.letter = ''
-            self.cost = 2
-        else:
-            self.letter = ''
-            self.cost = 1
-        self.image = pg.image.load(self.letter + "coin.png")
+        self.image = pg.image.load("coin.png")
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, 360), -50)
 
     def change(self):
-        self.type = random.randint(1, 10)
-        if self.type == 1:
-            self.letter = ''
-            self.cost = 5
-        elif 2 <= self.type < 5:
-            self.letter = ''
-            self.cost = 2
-        else:
-            self.letter = ''
-            self.cost = 1
-        self.image = pg.image.load(self.letter + "coin.png")
+        self.image = pg.image.load("coin.png")
         self.rect = self.image.get_rect()
         self.rect.center = (random.randint(40, 360), -50)
 
@@ -142,7 +127,8 @@ while running:
             SPEED += 1
     if not dead:
         # Scores
-        scores = font_small.render(str(SCORE), True, (0, 0, 0))
+        render_score = font_of_score.render(f'SCORE: {SCORE}', True, pg.Color('black'))
+        render_level = font_of_level.render(f'Level: {LEVEL}', True, pg.Color('black'))
 
         # Game
         Oy += SPEED
@@ -155,16 +141,21 @@ while running:
             counter = 0
             SPEED += 1
 
+        if counter % 3:
+            counter = 0
+            LEVEL += 1
+
         for entity in all_sprites:
             entity.move()
             screen.blit(entity.image, entity.rect)
 
-        screen.blit(scores, (10, 10))
+        screen.blit(render_score, (10, 10))
+        screen.blit(render_level, (10, 30))
 
         if pg.sprite.spritecollideany(player, coins):
             pg.mixer.Sound("coin.mp3").play()
-            SCORE += coin.cost
-            counter += coin.cost
+            SCORE += 2
+            counter += 2
             coin.change()
 
         if pg.sprite.spritecollideany(player, enemies):
