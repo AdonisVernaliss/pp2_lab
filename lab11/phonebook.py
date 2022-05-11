@@ -43,7 +43,7 @@ while True:
                 answer = cur.fetchall()
                 print(answer)
             except:
-                print("Error")
+                print("[INFO] Error while working with PostgreSQL")
                 cur.close()
                 connection.commit()
                 if connection is not None:
@@ -96,7 +96,7 @@ while True:
                 answer = cur.fetchall()
                 print(answer)
             except:
-                print("Error")
+                print("[INFO] Error while working with PostgreSQL")
                 cur.close()
                 connection.commit()
                 if connection is not None:
