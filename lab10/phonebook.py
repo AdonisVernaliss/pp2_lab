@@ -1,6 +1,6 @@
 import psycopg2
 from configparser import ConfigParser
-
+import csv
 
 def config(filename='database.ini', section='postgresql'):
     parser = ConfigParser()
@@ -106,7 +106,7 @@ def show(list):
 
 while True:
     station = int(input('1) Add a Person to the PhoneBook\n2) Delete a Person from the PhoneBook\n'
-                        '3) Update the PhoneBook\n4) Exit\n5) List of the PhoneBook\n'))
+                        '3) Update the PhoneBook\n4) Exit\n5) List of the PhoneBook\n6) Add from CSV file\n'))
     if station == 1:
         user_name = str(input('Name:\n'))
         phone_numb = str(input('Phone Number:\n'))
@@ -146,3 +146,8 @@ while True:
         list = int(input(
             'List of the PhoneBook: \nPress 0 to sort by date\n Press 1 to sort by Name\n Press 2 to sort by Phone number\n'))
         show(list)
+    elif station == 6:
+        with open("data.csv") as f:
+            read = csv.reader(f)
+            for i in read:
+                add_num(i[0], i[1])
